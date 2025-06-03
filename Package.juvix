@@ -1,0 +1,13 @@
+module Package;
+
+import PackageDescription.V2 open;
+
+package : Package :=
+  mkPackage@{
+    name := "Hello";
+    version := mkVersion 0 1 0;
+    main := just "Hello.juvix";
+    dependencies := [defaultStdlib];
+    buildDir := just "app";
+  };
+-- This does not seem to work...

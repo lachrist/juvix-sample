@@ -1,0 +1,23 @@
+module Collatz;
+
+import Stdlib.Prelude open;
+
+isPair (x : Nat) : Bool :=
+  if
+    | mod x 2 == 0 := true
+    | else := false;
+
+collatz (x : Nat) : Nat :=
+  if
+    | mod x 2 == 0 := div x 2
+    | else := 3 * x + 1;
+
+terminating
+countCollatz : Nat -> Nat -> Nat
+  | count (suc zero) := count
+  | count curr := countCollatz (count + 1) (collatz curr);
+
+runCollatz (input : String) : IO :=
+  printNatLn (countCollatz 0 (stringToNat input));
+
+main : IO := readLn runCollatz;
