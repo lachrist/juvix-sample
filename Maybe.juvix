@@ -1,0 +1,14 @@
+module Maybe;
+
+import Stdlib.Prelude open;
+
+type Optional A :=
+  | empty : Optional A
+  | full : A -> Optional A;
+
+open Optional;
+
+isEmpty {A} (optional : Optional A) : Bool :=
+  case optional of
+    | empty := true
+    | full _ := false;

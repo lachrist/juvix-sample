@@ -1,0 +1,17 @@
+module Trilean;
+
+import Stdlib.Prelude open;
+
+type Trilean :=
+  | trueT : Trilean
+  | falseT : Trilean
+  | undefT : Trilean;
+
+open Trilean using {trueT; falseT; undefT} public;
+
+or : Trilean -> Trilean -> Trilean
+  | undefT _ := undefT
+  | _ undefT := undefT
+  | trueT _ := trueT
+  | _ trueT := trueT
+  | _ _ := falseT;

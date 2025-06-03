@@ -1,0 +1,32 @@
+module Peano;
+
+import Stdlib.Prelude open;
+
+type Peano :=
+  | pzero : Peano
+  | psuc : Peano -> Peano;
+
+open Peano;
+
+add : Peano -> Peano -> Peano
+  | pzero y := y
+  | (psuc x) y := add x (psuc y);
+
+p0 : Peano := pzero;
+
+p1 : Peano := psuc pzero;
+
+p2 : Peano := psuc (psuc pzero);
+
+p3 : Peano := psuc (psuc (psuc pzero));
+
+showPeano : Peano -> String
+  | pzero := "0"
+  | (psuc pzero) := "1"
+  | (psuc (psuc pzero)) := "2"
+  | (psuc (psuc (psuc pzero))) := "3"
+  | (psuc (psuc (psuc (psuc pzero)))) := "4"
+  | (psuc (psuc (psuc (psuc (psuc pzero))))) := "5"
+  | _ := "?";
+
+main : IO := printStringLn (showPeano (add p2 p3));

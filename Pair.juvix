@@ -1,0 +1,21 @@
+module Pair;
+
+import Stdlib.Prelude open;
+
+type Cons (A B : Type) := cons : A -> B -> Cons A B;
+
+open Cons using {cons} public;
+
+car {A , B} (pair : Cons A B) : A := case pair of cons fst _ := fst;
+
+cdr {A , B} (pair : Cons A B) : B := case pair of cons _ snd := snd;
+
+swap {A , B} (pair : Cons A B) : Cons B A :=
+  case pair of cons fst snd := cons snd fst;
+
+-- swap {A , B} : PairRecord A B -> PairRecord B A
+--   | pair :=
+--     mkPairRecord@{
+--       fst := PairRecord.snd pair;
+--       snd := PairRecord.fst pair;
+--     };

@@ -1,0 +1,17 @@
+module Fibo;
+
+import Stdlib.Prelude open;
+
+terminating
+fiboRecur : Nat -> Nat
+  | zero := 1
+  | (suc zero) := 1
+  | n := fiboRecur (sub n 1) + fiboRecur (sub n 2);
+
+fiboIter : Nat -> Nat -> Nat -> Nat
+  | zero x1 _ := x1
+  | (suc n) x1 x2 := fiboIter n x2 (x1 + x2);
+
+-- main : IO := printNatLn (fiboIter 10 0 1);
+
+main : IO := printNatLn (fiboRecur 10);

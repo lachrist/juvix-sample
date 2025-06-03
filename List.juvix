@@ -1,0 +1,48 @@
+module List;
+
+import Stdlib.Prelude open;
+
+type Chain A :=
+  | done : Chain A
+  | item : A -> Chain A -> Chain A;
+
+open Chain using {done; item} public;
+
+mapChain {A B} (trans : A -> B) : (chain : Chain A) -> Chain B
+  | done := done
+  | (item head tail) := item (trans head) (mapChain trans tail);
+
+-- Why?
+terminating
+filterChain {A} (predicate : A -> Bool) (chain : Chain A) : Chain A :=
+  case chain of
+    | done := done
+    | item head tail :=
+      if
+        | predicate head := item head (filterChain predicate tail)
+        | else := filterChain predicate tail;
+
+-- Why?
+terminating
+hasChain {A} {{Eq A}} (target : A) (chain : Chain A) : Bool :=
+  case chain of
+    | done := false
+    | item head tail :=
+      if
+        | Eq.isEqual head target := true
+        | else := hasChain target tail;
+
+hasChainTypeSign {A} {{Eq A}} : A -> Chain A -> Bool
+  | _ done := false
+  | target (item head tail) :=
+    if
+      | Eq.isEqual head target := true
+      | else := hasChainTypeSign target tail;
+
+foldlChain {A B} : (A -> B -> B) -> B -> Chain A -> B
+  | _ curr done := curr
+  | acc curr (item head tail) := acc head (foldlChain acc curr tail);
+
+foldrChain {A B} : (A -> B -> B) -> B -> Chain A -> B
+  | _ curr done := curr
+  | acc curr (item head tail) := foldrChain acc (acc head curr) tail;
